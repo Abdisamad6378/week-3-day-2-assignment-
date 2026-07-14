@@ -126,3 +126,83 @@ saveToDbPromise({})
 console.log('\n' + '='.repeat(60));
 console.log('✅ Callback and Promise conversions complete!');
 console.log('='.repeat(60));
+
+
+// ASYNC/AWAIT VERSIONS
+
+console.log('\n--- ASYNC/AWAIT VERSIONS ---\n');
+
+async function readFileAsync(filename) {
+  try {
+    const data = await readFilePromise(filename);
+    console.log('Async/Await:', data);
+    return data;
+  } catch (error) {
+    console.log('Async/Await Error:', error.message);
+    throw error;
+  }
+}
+
+async function getUserAsync(userId) {
+  try {
+    const user = await getUserPromise(userId);
+    console.log('Async/Await:', user);
+    return user;
+  } catch (error) {
+    console.log('Async/Await Error:', error.message);
+    throw error;
+  }
+}
+
+async function saveToDbAsync(data) {
+  try {
+    const result = await saveToDbPromise(data);
+    console.log('Async/Await:', result);
+    return result;
+  } catch (error) {
+    console.log('Async/Await Error:', error.message);
+    throw error;
+  }
+}
+
+// Test Async/Await versions
+console.log('=== readFileAsync ===');
+await readFileAsync('data.txt');
+await readFileAsync('missing.txt');
+
+console.log('\n=== getUserAsync ===');
+await getUserAsync(1);
+await getUserAsync(0);
+
+console.log('\n=== saveToDbAsync ===');
+await saveToDbAsync({ name: "Amina" });
+await saveToDbAsync({});
+
+console.log('\n' + '-'.repeat(60) + '\n');
+
+// COMBINED DEMONSTRATION
+
+console.log('--- COMBINED DEMONSTRATION ---\n');
+
+async function demonstrateAll() {
+  console.log('Success case:');
+  console.log('Callback:', await new Promise((resolve) => {
+    readFile('data.txt', (err, data) => resolve(data));
+  }));
+  
+  console.log('Promise:', await readFilePromise('data.txt'));
+  console.log('Async/Await:', await readFileAsync('data.txt'));
+  
+  console.log('\nError case:');
+  try {
+    await readFilePromise('missing.txt');
+  } catch (error) {
+    console.log('Error handling:', error.message);
+  }
+}
+
+await demonstrateAll();
+
+console.log('\n' + '='.repeat(60));
+console.log('✅ All versions complete!');
+console.log('='.repeat(60));
